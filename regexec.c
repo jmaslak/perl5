@@ -10390,8 +10390,12 @@ Perl_isSCRIPT_RUN(pTHX_ const U8 * s, const U8 * send, const bool utf8_target)
             }
         }
         else {
-            script_of_char = _Perl_SCX_invmap[
-                                       _invlist_search(PL_SCX_invlist, cp)];
+            SSize_t index = _invlist_search(PL_SCX_invlist, cp);
+            if (0 > index) {
+                retval = FALSE;
+                break;
+            }
+            script_of_char = _Perl_SCX_invmap[index];
         }
 
         /* We arbitrarily accept a single unassigned character, but not in

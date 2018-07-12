@@ -3566,7 +3566,10 @@ Perl__inverse_folds(pTHX_ const UV cp, unsigned int * first_folds_to,
      * need to be constructed if we didn't employ something like this API */
 
     SSize_t index = _invlist_search(PL_utf8_foldclosures, cp);
-    int base = _Perl_IVCF_invmap[index];
+    int base = 0;
+    if (0 <= index) {
+        base = _Perl_IVCF_invmap[index];
+    }
 
     PERL_ARGS_ASSERT__INVERSE_FOLDS;
 
